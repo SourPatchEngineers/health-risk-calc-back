@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Tester</title>
+</head>
+<body>
+  <h1>API Tester</h1>
+  <button onclick="testWakeup()">Test Wakeup</button>
+  <button onclick="testRoll()">Test Roll</button>
+  <pre id="output"></pre>
+
+  <script>
+    const output = document.getElementById('output');
+
+    async function testWakeup() {
+      const response = await fetch('/api/wakeup');
+      const data = await response.json();
+      output.textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function testRoll() {
+      const response = await fetch('/api/roll/6');
+      const data = await response.json();
+      output.textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
