@@ -5,18 +5,42 @@ const port = process.env.PORT || 3000;
 // Enable CORS
 app.use(cors());
 
-// Endpoint to roll a dice
-app.get('/api/roll/:sides', (req, res) => {
-  const sides = parseInt(req.params.sides);
-  if (isNaN(sides) || sides < 2) {
-    return res.status(400).json({ error: 'Invalid number of sides' });
+//Enables JSON
+app.use(express.json());
+
+//Assigns scores to Blood Pressure categories
+function BloodPressureScoreGiver(bloodPressure){
+
+  if (bloodPressure === "normal") {
+    return 0;
+  } else if (category === "elevated") {
+    return 15;
+
+  } else if (bloodPressure === "stage 1") {
+      return 30;
+
+  } else if (bloodPressure === "stage 2") {
+      return 75;
+
+  } else if (bloodPressure === "crisis") {
+      return 100;
   }
-  const result = Math.floor(Math.random() * sides) + 1;
-  res.json({ result });
+}
+
+//(WORK IN PROGRESS) This is the API which takes the values, calculates them, and returns to the html site whether or not they're good. 
+app.post('/final-calculation', (req, res) => {
+  const {weight, feet, inches, age, bloodPressure, familyHistoryCheckboxes} = req.body;
+
+  const bpScore = BloodPressureScoreGiver(bloodPressure);
+
+  //I'm hoping that the final score gets calculated here -Kacper
+
 });
 
+
+
 // Wake-up endpoint
-app.get('/api/wakeup', (req, res) => {
+app.get('/ping', (req, res) => {
   res.json({ status: 'Server is awake' });
 });
 
