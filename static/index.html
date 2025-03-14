@@ -1,30 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API Tester</title>
-</head>
-<body>
-  <h1>API Tester</h1>
-  <button onclick="testWakeup()">Test Wakeup</button>
-  <button onclick="testRoll()">Test Roll</button>
-  <pre id="output"></pre>
-
-  <script>
-    const output = document.getElementById('output');
-
-    async function testWakeup() {
-      const response = await fetch('/api/wakeup');
-      const data = await response.json();
-      output.textContent = JSON.stringify(data, null, 2);
-    }
-
-    async function testRoll() {
-      const response = await fetch('/api/roll/6');
-      const data = await response.json();
-      output.textContent = JSON.stringify(data, null, 2);
-    }
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Score Calculator</title>
+  </head>
+  <body>
+    <h1>Health Score Calculator</h1>
+    <form id="healthForm">
+      <label for="weight">Weight (pounds):</label> 
+      <input type="number" id="weight" name="weight" required><br><br>
+  
+      <label for="feet">Height (feet):</label>
+      <input type="number" id="feet" name="feet" required><br><br>
+  
+      <label for="inches">Height (inches):</label>
+      <input type="number" id="inches" name="inches" required><br><br>
+  
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age" required><br><br>
+  
+      <label for="bloodPressure">Blood Pressure:</label>
+      <select id="bloodPressure" name="bloodPressure" required>
+        <option value="normal">Normal</option>
+        <option value="elevated">Elevated</option>
+        <option value="stage 1">Stage 1</option>
+        <option value="stage 2">Stage 2</option>
+        <option value="crisis">Crisis</option>
+      </select><br><br>
+  
+      <label>Family History:</label><br>
+      <label><input type="checkbox" name="familyHistory" value="heartDisease"> Heart Disease</label><br>
+      <label><input type="checkbox" name="familyHistory" value="diabetes"> Diabetes</label><br>
+      <label><input type="checkbox" name="familyHistory" value="highBloodPressure"> High Blood Pressure</label><br><br>
+  
+      <button type="button" onclick="submitForm()">Calculate Score</button>
+    </form>
+  
+    <h2>Result:</h2>
+    <pre id="result"></pre>
+  
+    <script>
+      async function submitForm() {
+        try {
+          const weight = document.getElementById('weight').value;
+          const feet = document.getElementById('feet').value;
+          const inches = document.getElementById('inches').value;
+          const age = document.getElementById('age').value;
+          const bloodPressure = document.getElementById('bloodPressure').value;
+  
+          // Get selected checkboxes
+          const checkboxes = document.querySelectorAll('input[name="familyHistory"]:checked');
+          const familyHistoryCheckboxes = Array.from(checkboxes).map(cb => cb.value);
+  
+          const data = {
+            weight: parseFloat(weight),
+            feet: parseFloat(feet),
+            inches: parseFloat(inches),
+            age: parseFloat(age),
+            bloodPressure: bloodPressure,
+            familyHistoryCheckboxes: familyHistoryCheckboxes
+          };
+  
+          const response = await fetch('/test-api', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+  
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+  
+          const result = await response.json();
+          document.getElementById('result').textContent = JSON.stringify(result, null, 2);
+        } catch (error) {
+          console.error('Error:', error);
+          document.getElementById('result').textContent = 'An error occurred. Please try again.';
+        }
+      }
   </script>
 </body>
 </html>
