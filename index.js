@@ -46,7 +46,7 @@ function FamilyHistoryScoreGiver(familyHistoryCheckboxes) {
   if (familyHistoryCheckboxes.includes("cancer")) {
     total += 10;
   }
-  if (familyHistoryCheckboxes.includes("alzheimers")) {
+  if (familyHistoryCheckboxes.includes("alzheimer")) {
     total += 10;
   }
   return total;
