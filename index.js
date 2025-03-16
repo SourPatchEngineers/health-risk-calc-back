@@ -121,7 +121,7 @@ function riskCategoryFinder(theFinalScore){
 app.post('/calculate-risk', (req, res) => {
   
   try {
-  const {weight, feet, inches, age, bloodPressure, familyHistoryCheckboxes} = req.body;
+    const {weight, feet, inches, age, bloodPressure, familyHistoryCheckboxes} = req.body;
 
   if (!weight || !feet || !inches || !age || !bloodPressure || !familyHistoryCheckboxes) {
     return res.status(400).json({ status: 'error', message: 'Missing required fields' });
@@ -151,7 +151,7 @@ app.post('/calculate-risk', (req, res) => {
 } catch (error) {
   console.error(error);
   res.status(500).json({ status: 'error', message: 'Internal server error' });
-}
+  }
 });
 
 
