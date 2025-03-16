@@ -40,13 +40,13 @@ function AgeScoreGiver(age){
 }
 function FamilyHistoryScoreGiver(familyHistoryCheckboxes) {
   let total = 0;
-  if (familyHistoryCheckboxes.includes("Diabetes")) {
+  if (familyHistoryCheckboxes.includes("diabetes")) {
     total += 10;
   }
-  if (familyHistoryCheckboxes.includes("Cancer")) {
+  if (familyHistoryCheckboxes.includes("cancer")) {
     total += 10;
   }
-  if (familyHistoryCheckboxes.includes("Alzheimer's")) {
+  if (familyHistoryCheckboxes.includes("alzheimers")) {
     total += 10;
   }
   return total;
