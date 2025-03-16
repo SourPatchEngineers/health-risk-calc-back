@@ -40,13 +40,13 @@ function AgeScoreGiver(age){
 }
 function FamilyHistoryScoreGiver(familyHistoryCheckboxes) {
   let total = 0;
-  if (familyHistoryCheckboxes.includes("heartDisease")) {
+  if (familyHistoryCheckboxes.includes("Diabetes")) {
     total += 10;
   }
-  if (familyHistoryCheckboxes.includes("diabetes")) {
+  if (familyHistoryCheckboxes.includes("Cancer")) {
     total += 10;
   }
-  if (familyHistoryCheckboxes.includes("highBloodPressure")) {
+  if (familyHistoryCheckboxes.includes("Alzheimer's")) {
     total += 10;
   }
   return total;
@@ -112,18 +112,7 @@ function riskCategoryFinder(theFinalScore){
       return "uninsurable";
   }
 
-
-
-
-
-
-
 }
-
-
-
-
-
 
 
 
