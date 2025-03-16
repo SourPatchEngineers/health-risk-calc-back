@@ -85,6 +85,7 @@ function CategoryBMI(BMI) {
   }
 }
 
+
 // Convert weight from pounds to kilograms
 function WeightConverter(weight) {
   return weight * 0.45359237;
@@ -96,15 +97,76 @@ function HeightConverter(feet, inches) {
   const heightInMeters = totalInches * 0.0254;
   return heightInMeters;
 }
+
+function riskCategoryFinder(theFinalScore){
+  if (theFinalScore <= 20){
+    return "low risk";
+
+  } else if (theFinalScore <= 50){
+      return "moderate risk";
+
+  } else if (theFinalScore <= 75){
+    return "high risk";
+
+  } else {
+      return "uninsurable";
+  }
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
 //(WORK IN PROGRESS) This is the API which takes the values, calculates them, and returns to the html site whether or not they're good. 
-app.post('/final-calculation', (req, res) => {
+app.post('/calculate-risk', (req, res) => {
+  
+  try {
   const {weight, feet, inches, age, bloodPressure, familyHistoryCheckboxes} = req.body;
 
-  const bpScore = BloodPressureScoreGiver(bloodPressure);
+  if (!weight || !feet || !inches || !age || !bloodPressure || !familyHistoryCheckboxes) {
+    return res.status(400).json({ status: 'error', message: 'Missing required fields' });
+  }
 
-  //I'm hoping that the final score gets calculated here -Kacper
+  // Calculate individual scores
+  const bpScore = BloodPressureScoreGiver(bloodPressure);
+  const ageScore = AgeScoreGiver(age);
+  const familyHistoryScore = FamilyHistoryScoreGiver(familyHistoryCheckboxes);
+  const { BMI, category, score: bmiScore } = BMICalculator(weight, feet, inches);
+
+  // Calculate the final score
+  const finalScore = bpScore + ageScore + familyHistoryScore + bmiScore;
+
+  //Determine the final category
+  const riskCategory = riskCategoryFinder(finalScore);
+
+  // Return the result
+  res.json({
+    status: 'success',
+    finalScore: finalScore,
+    BMI: BMI,
+    BMICategory: category,
+    riskCategory: riskCategory,
+    message: `Your calculated score is ${finalScore}.`
+  });
+} catch (error) {
+  console.error(error);
+  res.status(500).json({ status: 'error', message: 'Internal server error' });
+}
 
 });
+
+
 //Test Api- we can use it before we will enter to final api
 app.post('/test-api', (req, res) => {
   try {
