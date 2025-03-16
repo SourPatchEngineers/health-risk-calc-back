@@ -132,6 +132,12 @@ function riskCategoryFinder(theFinalScore){
 app.post('/calculate-risk', (req, res) => {
   
   try {
+
+  weight = parseFloat(weight);
+  feet = parseInt(feet, 10);
+  inches = parseInt(inches, 10);
+  age = parseInt(age, 10);
+  
   const {weight, feet, inches, age, bloodPressure, familyHistoryCheckboxes} = req.body;
 
   if (!weight || !feet || !inches || !age || !bloodPressure || !familyHistoryCheckboxes) {
@@ -163,7 +169,6 @@ app.post('/calculate-risk', (req, res) => {
   console.error(error);
   res.status(500).json({ status: 'error', message: 'Internal server error' });
 }
-
 });
 
 
