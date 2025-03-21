@@ -163,7 +163,7 @@ app.post('/test-api', (req, res) => {
     // Validate required fields
     if (!weight || !feet || !age || !bloodPressure || !familyHistoryCheckboxes) {
       return res.status(400).json({ status: 'error', message: 'Missing required fields' });
-    }
+    }  
 
 
     // Calculate individual scores
