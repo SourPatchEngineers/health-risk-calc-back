@@ -161,7 +161,7 @@ app.post('/test-api', (req, res) => {
     const { weight, feet, inches, age, bloodPressure, familyHistoryCheckboxes } = req.body;
 
     // Validating required fields
-    if (!weight || !feet || !age || !bloodPressure || !familyHistoryCheckboxes) {
+    if (!weight || !feet|| !age || !bloodPressure || !familyHistoryCheckboxes) {
       return res.status(400).json({ status: 'error', message: 'Missing required fields' });
     }  
 
